@@ -313,5 +313,4 @@ public partial class NavigationBar : Grid
             ? BACK_ICON_IOS
             : BACK_ICON_DEFAULT;
     }
-
 }

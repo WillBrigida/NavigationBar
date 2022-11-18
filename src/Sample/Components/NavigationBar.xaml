@@ -38,7 +38,7 @@
                             iOS='5,0'}"
         CharacterSpacing="-.5"
         FontFamily="FontComfortaaBold"
-        FontSize="{OnPlatform iOS=20,
+        FontSize="{OnPlatform iOS=18,
                               Android=18.9,
                               WinUI=25}"
         HorizontalOptions="{OnPlatform iOS=Fill,
@@ -79,7 +79,6 @@
         FontSize="26"
         HeightRequest="50"
         HorizontalOptions="End"
-        IsVisible="True"
         Text="✕"
         TextColor="Gray"
         WidthRequest="50" />
