@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Grid
+    x:Class="Sample.Components.NavigationBar"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="NavBar"
+    ColumnSpacing="1"
+    HeightRequest=" 55">
+
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="50" />
+    </Grid.ColumnDefinitions>
+
+    <!--  BUTTON ONE  -->
+    <Button
+        x:Name="NavButtonOne"
+        Grid.Column="0"
+        BackgroundColor="Transparent"
+        BorderColor="Transparent"
+        CornerRadius="25"
+        FontSize="26"
+        HeightRequest="50"
+        HorizontalOptions="Start"
+        IsVisible="True"
+        Text="▨"
+        TextColor="Gray"
+        WidthRequest="50" />
+
+    <!--  TITLE  -->
+    <Label
+        x:Name="Title"
+        Grid.Column="1"
+        Grid.ColumnSpan="2"
+        Margin="{OnPlatform Default='15,0,5,0',
+                            iOS='5,0'}"
+        CharacterSpacing="-.5"
+        FontFamily="FontComfortaaBold"
+        FontSize="{OnPlatform iOS=20,
+                              Android=18.9,
+                              WinUI=25}"
+        HorizontalOptions="{OnPlatform iOS=Fill,
+                                       Android=Fill}"
+        HorizontalTextAlignment="{OnPlatform iOS=Center,
+                                             Default=Start}"
+        LineBreakMode="MiddleTruncation"
+        TextColor="Gray"
+        VerticalOptions="Center"
+        VerticalTextAlignment="Center" />
+
+    <!--  BUTTON TWO  -->
+    <Button
+        x:Name="NavButtonTwo"
+        Grid.Column="2"
+        BackgroundColor="Transparent"
+        BorderColor="Transparent"
+        CornerRadius="25"
+        FontFamily="Fontello"
+        FontSize="26"
+        HeightRequest="50"
+        HorizontalOptions="Start"
+        IsVisible="False"
+        Text="◯"
+        TextColor="Gray"
+        WidthRequest="50" />
+
+    <!--  BUTTON THREE  -->
+    <Button
+        x:Name="NavButtonThree"
+        Grid.Column="3"
+        Margin="0"
+        Padding="0"
+        BackgroundColor="Transparent"
+        BorderColor="Transparent"
+        CornerRadius="25"
+        FontFamily="Fontello"
+        FontSize="26"
+        HeightRequest="50"
+        HorizontalOptions="End"
+        IsVisible="True"
+        Text="✕"
+        TextColor="Gray"
+        WidthRequest="50" />
+
+    <!--  LOAD  -->
+    <ActivityIndicator
+        x:Name="NavBarActivityIndicator"
+        Grid.Column="4"
+        HeightRequest="{OnPlatform Default='26'}"
+        HorizontalOptions="Center"
+        InputTransparent="True"
+        IsRunning="{Binding IsBusy}"
+        IsVisible="{Binding IsBusy}"
+        VerticalOptions="Center"
+        ZIndex="0" />
+
+    <!--  SEPARATOR  -->
+    <BoxView
+        x:Name="NavBarSeparator"
+        Grid.Column="0"
+        Grid.ColumnSpan="5"
+        HeightRequest="1"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="End"
+        Color="{AppThemeBinding Light=#CCCCCC,
+                                Dark=#888888}">
+        <!--<BoxView.Shadow>
+            <Shadow
+                Brush="{AppThemeBinding Light=#50000000,
+                                        Dark=#60ffffff}"
+                Opacity=".7"
+                Radius="3"
+                Offset="0,2" />
+        </BoxView.Shadow>-->
+    </BoxView>
+
+</Grid>

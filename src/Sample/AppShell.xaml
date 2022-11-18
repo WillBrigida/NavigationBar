@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Sample.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Sample"
+    Shell.FlyoutBehavior="Flyout"
+    Shell.FlyoutWidth="230"
+    Shell.NavBarIsVisible="False">
+    <!--  CABECALHO  -->
+    <Shell.FlyoutHeader>
+        <Grid
+            Padding="{OnPlatform WinUI='15,30,0,10',
+                                 iOS='15,25,0,-40',
+                                 Android='15,30,0,10'}"
+            ColumnDefinitions="56,*"
+            HorizontalOptions="Start">
+            <BoxView
+                Grid.Row="0"
+                CornerRadius="20"
+                HeightRequest="40"
+                HorizontalOptions="Start"
+                WidthRequest="40"
+                Color="Green" />
+
+            <Label
+                Grid.Row="0"
+                FontFamily="FontComfortaaBold"
+                FontSize="14"
+                HeightRequest="40"
+                HorizontalOptions="Start"
+                HorizontalTextAlignment="Center"
+                Text="G-1"
+                TextColor="#ffffff"
+                VerticalTextAlignment="Center"
+                WidthRequest="40" />
+
+            <Label
+                Grid.Column="1"
+                FontAttributes="Bold"
+                HeightRequest="40"
+                HorizontalTextAlignment="Center"
+                Text="Grupo 1"
+                VerticalTextAlignment="Center" />
+        </Grid>
+    </Shell.FlyoutHeader>
+
+
+
+    <!--  LISTA  -->
+    <FlyoutItem Title="Home">
+
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Página 1">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate local:OnePage}" />
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Sair">
+        <!--<Tab>
+            <ShellContent ContentTemplate="{DataTemplate local:TwoPage}" />
+        </Tab>-->
+    </FlyoutItem>
+
+</Shell>
