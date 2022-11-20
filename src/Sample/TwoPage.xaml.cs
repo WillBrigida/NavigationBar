@@ -9,6 +9,7 @@ public partial class TwoPage : ContentPage
 
     private void Button_Clicked(object sender, EventArgs e)
     {
+
         Shell.Current.GoToAsync(nameof(ThreePage));
     }
 }

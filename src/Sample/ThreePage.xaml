@@ -14,7 +14,8 @@
         VerticalOptions="FillAndExpand">
 
         <cpnts:NavigationBar
-            NavBarSeparatorType="LineWithShadow"
+            NavBarButtonThreeTextIcon="✕"
+            NavBarSeparatorType="NoLine"
             NavBarTextColor="#444444"
             NavBarTitle="Página 3" />
 

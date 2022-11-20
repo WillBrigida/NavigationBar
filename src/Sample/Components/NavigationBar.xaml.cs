@@ -3,6 +3,7 @@
 public partial class NavigationBar : Grid
 {
     public enum SeparatorType { LineSimple, LineWithShadow, NoLine };
+    private static ShellNavigationSource ShellNavigationSourceCurrent { get; set; }
 
     const string BACK_ICON_IOS = "⋖";
     const string BACK_ICON_DEFAULT = "◀";
@@ -13,6 +14,10 @@ public partial class NavigationBar : Grid
     public event EventHandler NavButtonOneClicked;
     public event EventHandler NavButtonTwoClicked;
     public event EventHandler NavButtonThreeClicked;
+
+    public string _IconOne { get; set; } = string.Empty;
+    public string _IconTwo { get; set; } = string.Empty;
+    public string _IconThree { get; set; } = string.Empty;
 
     public NavigationBar()
     {
@@ -26,39 +31,10 @@ public partial class NavigationBar : Grid
     }
 
     private void Navigated(object sender, ShellNavigatedEventArgs e)
-    {
-        InitValues();
-
-        var modalStack = Shell.Current.Navigation.ModalStack.ToList();
-        var navigationStack = Shell.Current.Navigation.NavigationStack.ToList();
-
-        switch (e.Source)
-        {
-            case ShellNavigationSource.Push:
-            case ShellNavigationSource.Pop:
-                if (modalStack.Count == 0)
-                    NavButtonOne.Text = DeviceInfo.Platform == DevicePlatform.iOS || DeviceInfo.Platform == DevicePlatform.MacCatalyst
-                      ? BACK_ICON_IOS
-                      : BACK_ICON_DEFAULT;
-                else
-                {
-                    NavButtonOne.IsVisible = false;
-                    NavButtonThree.IsVisible = true;
-                    Title.HorizontalTextAlignment = TextAlignment.Center;
-                    Title.Margin = new Thickness(50, 0, 5, 0);
-                }
-                break;
-            case ShellNavigationSource.ShellItemChanged:
-            case ShellNavigationSource.PopToRoot:
-                NavButtonOne.Text = MENU_ICON;
-                break;
-        }
-    }
+        => ShellNavigationSourceCurrent = e.Source;
 
     private void Navigating(object sender, ShellNavigatingEventArgs e)
-    {
-        InitValues();
-    }
+        => ShellNavigationSourceCurrent = e.Source;
 
     private void InitValues()
     {
@@ -73,8 +49,104 @@ public partial class NavigationBar : Grid
             : new Thickness(15, 0, 5, 0);
     }
 
+    #region _ NavBarButtonOneTextIcon . . .
+    public static readonly BindableProperty NavBarButtonOneTextIconProperty =
+        BindableProperty.Create(nameof(NavBarButtonOneTextIcon),
+            typeof(string),
+            typeof(NavigationBar),
+            defaultValue: string.Empty,
+            defaultBindingMode: BindingMode.TwoWay,
+            coerceValue: NavBarButtonOneTextIconCoerceValue,
+            propertyChanged: NavBarButtonOneTextIconPropertyChanged);
 
-    #region _ NavBarTitle
+    public static object NavBarButtonOneTextIconCoerceValue(BindableObject bindable, object value)
+    {
+        var control = bindable as NavigationBar;
+        var result = (string)value;
+
+        control.NavButtonOne.IsVisible = true;
+        control.NavButtonOne.Text = result;
+        control._IconOne = result;
+        return result;
+    }
+    static void NavBarButtonOneTextIconPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        => bindable.CoerceValue(NavBarButtonOneTextIconProperty);
+
+    public string NavBarButtonOneTextIcon
+    {
+        get => (string)GetValue(NavBarButtonOneTextIconProperty);
+        set => SetValue(NavBarButtonOneTextIconProperty, value);
+    }
+    #endregion
+
+    #region _ NavBarButtonTwoTextIcon . . .
+    public static readonly BindableProperty NavBarButtonTwoTextIconProperty =
+        BindableProperty.Create(nameof(NavBarButtonTwoTextIcon),
+            typeof(string),
+            typeof(NavigationBar),
+            defaultValue: string.Empty,
+            defaultBindingMode: BindingMode.TwoWay,
+            coerceValue: NavBarButtonTwoTextIconCoerceValue,
+            propertyChanged: NavBarButtonTwoTextIconPropertyChanged);
+
+    public static object NavBarButtonTwoTextIconCoerceValue(BindableObject bindable, object value)
+    {
+        var control = bindable as NavigationBar;
+        var result = (string)value;
+
+        control.NavButtonTwo.IsVisible = true;
+        control.NavButtonTwo.Text = result;
+        return result;
+    }
+    static void NavBarButtonTwoTextIconPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        => bindable.CoerceValue(NavBarButtonTwoTextIconProperty);
+
+    public string NavBarButtonTwoTextIcon
+    {
+        get => (string)GetValue(NavBarButtonTwoTextIconProperty);
+        set => SetValue(NavBarButtonTwoTextIconProperty, value);
+    }
+    #endregion
+
+    #region _ NavBarButtonThreeTextIcon . . .
+    public static readonly BindableProperty NavBarButtonThreeTextIconProperty =
+        BindableProperty.Create(nameof(NavBarButtonThreeTextIcon),
+            typeof(string),
+            typeof(NavigationBar),
+            defaultValue: string.Empty,
+            defaultBindingMode: BindingMode.TwoWay,
+            coerceValue: NavBarButtonThreeTextIconCoerceValue,
+            propertyChanged: NavBarButtonThreeTextIconPropertyChanged);
+
+    public static object NavBarButtonThreeTextIconCoerceValue(BindableObject bindable, object value)
+    {
+        var control = bindable as NavigationBar;
+        var result = (string)value;
+
+        control.Title.HorizontalTextAlignment = TextAlignment.Center;
+        control.Title.Margin = new Thickness(50, 0, 5, 0);
+
+        control.NavButtonOne.IsVisible = false;
+        control._IconOne = string.Empty;
+
+        control.NavButtonThree.IsVisible = true;
+        control.NavButtonThree.Text = result;
+
+        control._IconThree = result;
+
+        return result;
+    }
+    static void NavBarButtonThreeTextIconPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        => bindable.CoerceValue(NavBarButtonThreeTextIconProperty);
+
+    public string NavBarButtonThreeTextIcon
+    {
+        get => (string)GetValue(NavBarButtonThreeTextIconProperty);
+        set => SetValue(NavBarButtonThreeTextIconProperty, value);
+    }
+    #endregion
+
+    #region _ NavBarTitle . . .
     public static readonly BindableProperty NavBarTitleProperty =
       BindableProperty.Create(nameof(NavBarTitle),
           typeof(string),
@@ -90,8 +162,30 @@ public partial class NavigationBar : Grid
 
         string title = (string)value;
         control.Title.Text = title;
-        //control.HandleNavIconOne(title);
+        control.HandleNavigationBarValueChanged();
         return title;
+    }
+
+    private void HandleNavigationBarValueChanged()
+    {
+        var modalStack = Shell.Current.Navigation.ModalStack.ToList();
+        var navigationStack = Shell.Current.Navigation.NavigationStack.ToList();
+
+
+        switch (ShellNavigationSourceCurrent)
+        {
+            case ShellNavigationSource.Push:
+            case ShellNavigationSource.Pop:
+                if (string.IsNullOrEmpty(_IconOne))
+                    NavButtonOne.Text = DeviceInfo.Platform == DevicePlatform.iOS || DeviceInfo.Platform == DevicePlatform.MacCatalyst
+                      ? BACK_ICON_IOS
+                      : BACK_ICON_DEFAULT;
+                break;
+            case ShellNavigationSource.ShellItemChanged:
+            case ShellNavigationSource.PopToRoot:
+                NavButtonOne.Text = MENU_ICON;
+                break;
+        }
     }
 
     static void NavBarTitlePropertyChanged(BindableObject bindable, object oldValue, object newValue)
@@ -104,7 +198,7 @@ public partial class NavigationBar : Grid
     }
     #endregion
 
-    #region _ NavBarBackgroundColor
+    #region _ NavBarBackgroundColor . . .
     public static readonly BindableProperty NavBarBackgroundColorProperty =
         BindableProperty.Create(nameof(NavBarBackgroundColor),
         typeof(Color),
@@ -239,8 +333,6 @@ public partial class NavigationBar : Grid
             case SeparatorType.NoLine:
                 control.NavBarSeparator.IsVisible = false;
                 break;
-            default:
-                break;
         }
 
         return result;
@@ -291,26 +383,8 @@ public partial class NavigationBar : Grid
             return;
         }
 
-        await Shell.Current.GoToAsync("..");
+        if (NavButtonThree.Text.Equals(EXIT_ICON))
+            await Shell.Current.GoToAsync("..");
     }
 
-    private void HandleNavIconOne(string title)
-    {
-        bool isFlyoutPage = false;
-
-        foreach (IEnumerable<object> flyoutItems in Shell.Current.FlyoutItems)
-            foreach (Microsoft.Maui.Controls.ShellItem flyoutItem in flyoutItems)
-                if (title == flyoutItem.Title || Title.Text == flyoutItem.Title)
-                {
-                    isFlyoutPage = true;
-                    break;
-                }
-
-        if (isFlyoutPage)
-            NavButtonOne.Text = MENU_ICON;
-        else
-            NavButtonOne.Text = DeviceInfo.Platform == DevicePlatform.iOS || DeviceInfo.Platform == DevicePlatform.MacCatalyst
-            ? BACK_ICON_IOS
-            : BACK_ICON_DEFAULT;
-    }
 }
