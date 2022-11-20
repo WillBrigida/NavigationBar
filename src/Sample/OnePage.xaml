@@ -17,14 +17,24 @@
             NavBarTextColor="#444444"
             NavBarTitle="Página 1" />
 
-        <VerticalStackLayout Grid.Row="1" VerticalOptions="FillAndExpand">
+        <VerticalStackLayout
+            Grid.Row="1"
+            Margin="15"
+            VerticalOptions="FillAndExpand">
+
             <Button
                 Margin="0,50,0,0"
-                Clicked="Button_Clicked"
+                Clicked="NavToTwoPage"
                 Text="Navegar para página 2"
                 VerticalOptions="CenterAndExpand" />
-        </VerticalStackLayout>
 
+            <Button
+                Margin="0,50,0,0"
+                Clicked="ShowModal"
+                Text="Abrir modal"
+                VerticalOptions="CenterAndExpand" />
+
+        </VerticalStackLayout>
 
     </Grid>
 

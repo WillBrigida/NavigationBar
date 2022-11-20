@@ -14,17 +14,27 @@
         VerticalOptions="FillAndExpand">
 
         <cpnts:NavigationBar
+            NavBarButtonThreeTextIcon="◯"
             NavBarSeparatorType="LineWithShadow"
             NavBarTextColor="#444444"
             NavBarTitle="Página 2" />
 
-
-        <VerticalStackLayout Grid.Row="1" VerticalOptions="FillAndExpand">
+        <VerticalStackLayout
+            Grid.Row="1"
+            Margin="15"
+            VerticalOptions="FillAndExpand">
             <Button
                 Margin="0,50,0,0"
-                Clicked="Button_Clicked"
+                Clicked="NavToThreePage"
                 Text="Navegar para página 3"
                 VerticalOptions="CenterAndExpand" />
+
+            <Button
+                Margin="0,50,0,0"
+                Clicked="ShowModal"
+                Text="Abrir modal"
+                VerticalOptions="CenterAndExpand" />
+
         </VerticalStackLayout>
 
     </Grid>

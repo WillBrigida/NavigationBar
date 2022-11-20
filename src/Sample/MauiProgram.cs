@@ -22,6 +22,7 @@ public static class MauiProgram
         builder.Services.AddTransient<OnePage>();
         builder.Services.AddTransient<TwoPage>();
         builder.Services.AddTransient<ThreePage>();
+        builder.Services.AddTransient<ModalPage>();
 
         return builder.Build();
     }

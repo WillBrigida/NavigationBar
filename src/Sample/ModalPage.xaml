@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="Sample.ThreePage"
+    x:Class="Sample.ModalPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:cpnts="clr-namespace:Sample.Components"
-    Shell.NavBarIsVisible="False">
+    Shell.NavBarIsVisible="False"
+    Shell.PresentationMode="ModalAnimated">
 
     <Grid
         BackgroundColor="Transparent"
@@ -13,10 +14,11 @@
         VerticalOptions="FillAndExpand">
 
         <cpnts:NavigationBar
-            NavBarSeparatorType="LineWithShadow"
+            NavBarButtonThreeTextIcon="✕"
+            NavBarSeparatorType="NoLine"
             NavBarTextColor="#444444"
-            NavBarTitle="Página 3" />
+            NavBarTitle="Modal Page" />
+
 
     </Grid>
-
 </ContentPage>

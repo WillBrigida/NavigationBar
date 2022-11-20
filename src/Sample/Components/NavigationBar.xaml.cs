@@ -123,11 +123,13 @@ public partial class NavigationBar : Grid
         var control = bindable as NavigationBar;
         var result = (string)value;
 
-        control.Title.HorizontalTextAlignment = TextAlignment.Center;
-        control.Title.Margin = new Thickness(50, 0, 5, 0);
-
-        control.NavButtonOne.IsVisible = false;
-        control._IconOne = string.Empty;
+        if (control._IconThree.Contains(EXIT_ICON))
+        {
+            control.NavButtonOne.IsVisible = false;
+            control._IconOne = string.Empty;
+            control.Title.HorizontalTextAlignment = TextAlignment.Center;
+            control.Title.Margin = new Thickness(50, 0, 5, 0);
+        }
 
         control.NavButtonThree.IsVisible = true;
         control.NavButtonThree.Text = result;
@@ -375,8 +377,19 @@ public partial class NavigationBar : Grid
         }
     }
 
+    bool searchIsEnabled = false;
     public async void NotifyNavButtonThreeClicked(object sender, EventArgs e)
     {
+        if (NavButtonThree.Text.Contains(SEARCH_ICON) || searchIsEnabled)
+        {
+            if (!searchIsEnabled)
+                HandleSearchDisabled();
+            else
+                HandleSearchEnabled();
+
+            return;
+        }
+
         if (NavButtonThreeClicked is not null)
         {
             NavButtonThreeClicked(sender, e);
@@ -387,4 +400,37 @@ public partial class NavigationBar : Grid
             await Shell.Current.GoToAsync("..");
     }
 
+    private void HandleSearchEnabled()
+    {
+        NavButtonOne.Text = DeviceInfo.Platform == DevicePlatform.iOS || DeviceInfo.Platform == DevicePlatform.MacCatalyst
+                      ? BACK_ICON_IOS
+                      : BACK_ICON_DEFAULT;
+        NavButtonThree.Text = SEARCH_ICON;
+        Title.IsVisible = true;
+        NavBar.BackgroundColor = Colors.Transparent;
+        searchIsEnabled = false;
+        SearchEntry.IsVisible = searchIsEnabled;
+    }
+
+    private async void HandleSearchDisabled()
+    {
+        searchIsEnabled = true;
+        Title.IsVisible = false;
+        SearchEntry.IsVisible = true;
+        NavBar.Opacity = 0;
+        SearchEntry.Opacity = 0;
+        NavButtonOne.Opacity = 0;
+        NavButtonThree.Opacity = 0;
+        NavBar.BackgroundColor = Color.FromArgb("#30CCCCCC");
+        NavButtonOne.Text = SEARCH_ICON;
+        NavButtonThree.Text = EXIT_ICON;
+
+        await Task.WhenAll
+        (
+            NavBar.FadeTo(1, 400),
+            SearchEntry.FadeTo(1, 400),
+            NavButtonOne.FadeTo(1, 400),
+            NavButtonThree.FadeTo(1, 400)
+        );
+    }
 }

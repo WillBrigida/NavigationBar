@@ -2,14 +2,11 @@ namespace Sample;
 
 public partial class TwoPage : ContentPage
 {
-    public TwoPage()
-    {
-        InitializeComponent();
-    }
+    public TwoPage() => InitializeComponent();
 
-    private void Button_Clicked(object sender, EventArgs e)
-    {
+    private void NavToThreePage(object sender, EventArgs e)
+        => Shell.Current.GoToAsync(nameof(ThreePage));
 
-        Shell.Current.GoToAsync(nameof(ThreePage));
-    }
+    private void ShowModal(object sender, EventArgs e)
+        => Shell.Current.GoToAsync(nameof(ModalPage));
 }

@@ -56,6 +56,9 @@
 	  <MauiXaml Update="Components\NavigationBar.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="ModalPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="OnePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

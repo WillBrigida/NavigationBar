@@ -14,6 +14,27 @@
         <ColumnDefinition Width="50" />
     </Grid.ColumnDefinitions>
 
+    <!--<Border
+        x:Name="SearchBorder"
+        Grid.ColumnSpan="4"
+        Padding="0"
+        BackgroundColor="Gray"
+        IsVisible="False"
+        Stroke="#50C1C1C1"
+        StrokeShape="RoundRectangle 10"
+        ZIndex="1">
+        <Entry
+            Margin="70,0"
+            FontSize="12"
+            HeightRequest="45"
+            IsEnabled="False"
+            Text="vdvdf"
+            VerticalOptions="End"
+            VerticalTextAlignment="Center" />
+
+    </Border>-->
+
+
     <!--  BUTTON ONE  -->
     <Button
         x:Name="NavButtonOne"
@@ -29,6 +50,26 @@
         TextColor="Gray"
         WidthRequest="50" />
 
+    <Entry
+        x:Name="SearchEntry"
+        Grid.Column="1"
+        Grid.ColumnSpan="2"
+        Margin="5,0"
+        CharacterSpacing="-.5"
+        FontFamily="FontComfortaaBold"
+        FontSize="{OnPlatform iOS=17,
+                              Android=18.9,
+                              WinUI=25}"
+        HorizontalOptions="{OnPlatform iOS=Fill,
+                                       Android=Fill}"
+        HorizontalTextAlignment="Start"
+        IsVisible="False"
+        Placeholder="Buscar por nome"
+        TextColor="Gray"
+        VerticalOptions="Center"
+        VerticalTextAlignment="Center" />
+
+
     <!--  TITLE  -->
     <Label
         x:Name="Title"
@@ -38,7 +79,7 @@
                             iOS='5,0'}"
         CharacterSpacing="-.5"
         FontFamily="FontComfortaaBold"
-        FontSize="{OnPlatform iOS=17.5,
+        FontSize="{OnPlatform iOS=17,
                               Android=18.9,
                               WinUI=25}"
         HorizontalOptions="{OnPlatform iOS=Fill,
